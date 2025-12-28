@@ -211,3 +211,9 @@ __marimo__/
 
 #vscode
 .vscode/
+
+# UV
+uv.lock
+
+# DB
+*.db
