@@ -214,3 +214,6 @@ __marimo__/
 
 # UV
 uv.lock
+
+# DB
+*.db

@@ -11,9 +11,7 @@ Here’s a set of simple curl examples you can use to interact with your FastAPI
 
 1️⃣ Create a User
 
-curl -X POST "http://localhost:8000/api/v1/users"
--H "Content-Type: application/json"
--d '{"name": "Ada Lovelace"}'
+curl -X POST "http://localhost:8000/api/v1/users" -H "Content-Type: application/json" -d '{"name": "John Dow"}'
 
 2️⃣ Get All Users
 
