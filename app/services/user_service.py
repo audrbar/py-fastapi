@@ -1,17 +1,24 @@
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.db.schema import User
 
 
 class UserService:
+    """User service using SQLAlchemy 2.0 style queries."""
+
     def __init__(self, session: Session):
         self._db = session
 
     def list_users(self) -> list[User]:
-        return self._db.query(User).all()
+        """Get all users using modern select() API."""
+        stmt = select(User)
+        return list(self._db.scalars(stmt).all())
 
     def get_user(self, user_id: int) -> User | None:
-        return self._db.query(User).filter(User.id == user_id).first()
+        """Get user by ID using modern select() API."""
+        stmt = select(User).where(User.id == user_id)
+        return self._db.scalars(stmt).first()
 
     def create_user(self, name: str) -> User:
         user = User(name=name)
