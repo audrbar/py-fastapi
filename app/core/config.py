@@ -7,14 +7,20 @@ load_dotenv()
 class Config(BaseSettings):
     app_name: str = "FastAPIBackend"
     debug: bool = False
-    
+
     # PostgreSQL configuration from environment variables
     postgres_user: str = "user"
     postgres_password: str = "password"
     postgres_db: str = "test_db"
     postgres_host: str = "localhost"  # Default for local dev
     postgres_port: int = 5432
-    
+
+    class Config:
+        """Pydantic configuration for environment variable handling."""
+
+        env_file = ".env"
+        case_sensitive = False  # Allow uppercase env vars to match lowercase fields
+
     @property
     def db_url(self) -> str:
         """Build PostgreSQL connection URL from environment variables."""
