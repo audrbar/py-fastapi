@@ -1,0 +1,43 @@
+# Dockerfile
+# Hidden files
+.dockerignore
+.git
+.DS_Store
+.vscode
+
+# Build artifacts
+*.pyc
+*.so
+*.egg
+*.whl
+
+# Local settings
+.env
+.env.local
+.env.development
+.env.dev
+.env.test
+.env.production
+.env.prod
+local.properties
+
+# IDE files
+.idea
+*.iml
+.classpath
+.project
+.DS_Store
+
+# Log files
+*.log
+*.err
+
+# Test directories
+test
+tests
+coverage
+.pytest_cache
+
+# Virtual environment
+.venv
+venv

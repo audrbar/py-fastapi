@@ -1,9 +1,50 @@
 services:
-  web:
-    build: .
-    ports:
-      - "8000:80"
+  db:
+    image: postgres:15-alpine
+    env_file:
+      - .env
     environment:
-      - DB_USER=admin
-      - DB_PASSWORD=secret
-      - DB_NAME=test.db
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-test_db}
+    ports:
+      - "5433:5432"  # Changed to 5433 to avoid conflict with local PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  dev:
+    build:
+      context: .
+      target: dev
+    volumes:
+      - ./src:/app/src # Live reload support
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-test_db}
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
+
+  prod:
+    build:
+      context: .
+      target: prod
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_DB=${POSTGRES_DB:-test_db}
+      - POSTGRES_HOST=db
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

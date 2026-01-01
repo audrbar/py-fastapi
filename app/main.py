@@ -17,4 +17,4 @@ app.include_router(user.router, prefix="/api/v1")
 
 @app.get("/")
 async def read_root():
-    return Response("Uvicorn server is running!\nFastAPI app is up and ready.\nEnjoy!")
+    return Response("Uvicorn server is running!\nFastAPI app is up and ready!")
