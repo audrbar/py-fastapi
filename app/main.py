@@ -18,3 +18,9 @@ app.include_router(user.router, prefix="/api/v1")
 @app.get("/")
 async def read_root():
     return Response("Uvicorn server is running!\nFastAPI app is up and ready!")
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for monitoring and load balancers."""
+    return {"status": "healthy", "service": config.app_name}

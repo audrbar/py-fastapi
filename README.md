@@ -25,6 +25,8 @@ The application provides a complete user management system with CRUD operations,
 - **Clean Architecture** - Layered structure (routes → services → models)
 - **Environment Configuration** - Pydantic settings with .env support
 - **UV Package Manager** - Fast, modern Python package management
+- **Production Ready** - Health check endpoint, render.yaml for easy deployment
+- **Reproducible Builds** - uv.lock committed for consistent dependencies
 
 ## 🏗️ Architecture
 
@@ -93,7 +95,9 @@ py-fastapi/
 │       └── test_user.py
 ├── docker-compose.yaml      # Docker orchestration
 ├── Dockerfile               # Multi-stage Docker build
+├── render.yaml             # Render.com deployment config
 ├── pyproject.toml          # Python dependencies
+├── uv.lock                 # Locked dependencies (committed)
 ├── .env                    # Environment variables (not in git)
 ├── .env.example            # Environment template
 └── README.md               # This file
@@ -144,6 +148,7 @@ The API will be available at `http://localhost:8000`
 
 - Interactive API docs: `http://localhost:8000/docs`
 - Alternative API docs: `http://localhost:8000/redoc`
+- Health check: `http://localhost:8000/health`
 
 ## 📚 API Documentation
 
@@ -401,7 +406,72 @@ Configuration is automatically loaded from:
 2. `.env` file
 3. Default values in `config.py`
 
-## 📝 License
+## � Deployment
+
+### Render.com (Recommended)
+
+This application is configured for easy deployment on Render using the included `render.yaml`.
+
+**Quick Deploy:**
+
+1. **Fork or push to GitHub**
+   ```bash
+   git push origin develop
+   ```
+
+2. **Connect to Render**
+   - Sign up at [render.com](https://render.com)
+   - Click "New +" → "Blueprint"
+   - Connect your repository
+   - Select branch: `develop`
+   - Render auto-detects `render.yaml`
+   - Click "Apply"
+
+3. **Done!** Your app deploys automatically:
+   - API: `https://your-app.onrender.com`
+   - Health: `https://your-app.onrender.com/health`
+   - Docs: `https://your-app.onrender.com/docs`
+
+**What's Included:**
+
+- ✅ `render.yaml` - Automatic configuration
+- ✅ `/health` endpoint - For monitoring
+- ✅ `uv.lock` - Reproducible builds
+- ✅ Multi-stage Dockerfile - Optimized images
+- ✅ Environment variables - Secure config
+
+**Free Tier:**
+- Web Service: Free (with some limitations)
+- PostgreSQL: 90-day free trial, then $7/month
+
+### Other Platforms
+
+The application can also be deployed to:
+
+- **Railway** - One-click PostgreSQL, auto-deploy
+- **Fly.io** - Global edge deployment, generous free tier
+- **Digital Ocean** - App Platform with managed database
+- **Google Cloud Run** - Serverless, pay-per-use
+- **AWS ECS/Fargate** - Enterprise-grade scaling
+
+All platforms work with the existing Dockerfile and environment variables.
+
+### Health Check
+
+The `/health` endpoint returns:
+```json
+{
+  "status": "healthy",
+  "service": "FastAPIBackend"
+}
+```
+
+Use this for:
+- Load balancer health checks
+- Monitoring services (Datadog, New Relic, etc.)
+- Uptime monitoring (UptimeRobot, Pingdom)
+
+## �📝 License
 
 See LICENSE file for details.
 
